@@ -8,8 +8,11 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.*;
 
+/**
+*Class header for HomePage.
+*Extends JFrame class.
+*/
 public class HomePage extends JFrame {
-
     private Statement myStmt = null;
     private PreparedStatement st = null;
     private Connection myConn = null;
@@ -42,7 +45,10 @@ public class HomePage extends JFrame {
     private JTable yourSongs;
     private String playlistName;
 
-
+    /**
+    *HomePage constructor.
+    *@throws SQLException.
+    */
     public HomePage() throws SQLException {
         JFrame homeFrame = new JFrame("Homepage");
         homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,7 +56,8 @@ public class HomePage extends JFrame {
         homeFrame.setVisible(true);
         homeFrame.add(homePanel);
         createTable();
-
+        
+        //action listener for log out button.
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,7 +65,10 @@ public class HomePage extends JFrame {
                 new RapCorner();
             }
         });
-
+        
+        /**
+        *Action listener for searchButton, allows user to search.
+        */
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -85,7 +95,10 @@ public class HomePage extends JFrame {
                 }
             }
         });
-
+        
+        /**
+        *Action listener for makeNewPlaylist button. Lets user make new playlist on button click.
+        */
         makeNewPlaylistButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -98,11 +111,13 @@ public class HomePage extends JFrame {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-
-
             };
         });
-
+        
+        /**
+        *Action Listener for addListSeletion.
+        *Adds to list selection list.
+        */
         playlistList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -119,18 +134,19 @@ public class HomePage extends JFrame {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-
             }
         });
     }
     
+    /**
+    *Method to create table using MNySQL DB info.
+    */
     public void createTable() {
         try {
             myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/musicdb", "student", "student");
             model = new DefaultTableModel(new String[]{"Album", "Song Title", "Artist"}, 0);
             model2 = new DefaultTableModel(new String[]{"Your Artists"}, 0);
            
-            
             String query = "SELECT * FROM songs";
             myStmt = myConn.createStatement();
             myRs = myStmt.executeQuery(query);
@@ -145,13 +161,13 @@ public class HomePage extends JFrame {
 
             musicTable.setModel(model);
             artistTable.setModel(model2);
-
             
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
+    //to-do
     private void createUIComponents() {
         // TODO: place custom component creation code here
     }
